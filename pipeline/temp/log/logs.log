@@ -1,0 +1,621 @@
+2024-11-11 00:04:12,576 - INFO - ==================================STARTING EXTRACT DATA=======================================
+2024-11-11 00:04:13,205 - INFO - EXTRACT 'public.products' - SUCCESS.
+2024-11-11 00:04:13,215 - INFO - EXTRACT 'public.product_category_name_translation' - SUCCESS.
+2024-11-11 00:04:14,605 - INFO - EXTRACT 'public.customers' - SUCCESS.
+2024-11-11 00:04:14,630 - INFO - EXTRACT 'public.sellers' - SUCCESS.
+2024-11-11 00:04:16,712 - INFO - EXTRACT 'public.order_items' - SUCCESS.
+2024-11-11 00:04:17,719 - INFO - EXTRACT 'public.order_payments' - SUCCESS.
+2024-11-11 00:04:18,689 - INFO - EXTRACT 'public.order_reviews' - SUCCESS.
+2024-11-11 00:04:18,830 - INFO - EXTRACT 'public.geolocation' - SUCCESS.
+2024-11-11 00:04:20,375 - INFO - EXTRACT 'public.orders' - SUCCESS.
+2024-11-11 00:04:20,375 - INFO - Extract All Tables From Sources - SUCCESS
+2024-11-11 00:04:20,384 - INFO - ==================================ENDING EXTRACT DATA=======================================
+2024-11-11 00:04:20,434 - INFO - [pid 93349] Worker Worker(salt=6390486614, workers=1, host=MSI, username=alfayyedh, pid=93349) done      Extract()
+2024-11-11 00:04:20,437 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:04:20,444 - INFO - Informed scheduler that task   Extract__99914b932b   has status   DONE
+2024-11-11 00:04:20,445 - DEBUG - Asking scheduler for work...
+2024-11-11 00:04:20,448 - DEBUG - Pending tasks: 2
+2024-11-11 00:04:20,448 - INFO - [pid 93349] Worker Worker(salt=6390486614, workers=1, host=MSI, username=alfayyedh, pid=93349) running   Load()
+2024-11-11 00:04:20,455 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:04:22,362 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:04:22,363 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:04:22,502 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:04:22,553 - ERROR - [pid 93349] Worker Worker(salt=6390486614, workers=1, host=MSI, username=alfayyedh, pid=93349) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 142, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 154, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:04:22,578 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:04:22,587 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:04:22,588 - DEBUG - Asking scheduler for work...
+2024-11-11 00:04:22,594 - DEBUG - Done
+2024-11-11 00:04:22,595 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:04:22,595 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:04:22,595 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 00:04:22,595 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:04:22,595 - INFO - Worker Worker(salt=6390486614, workers=1, host=MSI, username=alfayyedh, pid=93349) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:04:22,600 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 ran successfully:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 00:11:21,682 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:11:22,753 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:11:22,798 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:11:22,817 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:11:22,843 - ERROR - [pid 96468] Worker Worker(salt=8300972236, workers=1, host=MSI, username=alfayyedh, pid=96468) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 142, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 154, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:11:22,865 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:11:22,870 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:11:22,870 - DEBUG - Asking scheduler for work...
+2024-11-11 00:11:22,872 - DEBUG - Done
+2024-11-11 00:11:22,872 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:11:22,872 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:11:22,872 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 00:11:22,872 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:11:22,872 - INFO - Worker Worker(salt=8300972236, workers=1, host=MSI, username=alfayyedh, pid=96468) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:11:22,873 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 00:37:53,912 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:37:55,594 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:37:55,638 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:37:55,681 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:37:55,715 - ERROR - [pid 107439] Worker Worker(salt=5582145341, workers=1, host=MSI, username=alfayyedh, pid=107439) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 145, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 157, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:37:55,738 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:37:55,746 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:37:55,746 - DEBUG - Asking scheduler for work...
+2024-11-11 00:37:55,749 - DEBUG - Done
+2024-11-11 00:37:55,749 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:37:55,749 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:37:55,749 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 00:37:55,749 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:37:55,750 - INFO - Worker Worker(salt=5582145341, workers=1, host=MSI, username=alfayyedh, pid=107439) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:37:55,751 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 00:38:49,662 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:38:50,535 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:38:50,569 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:38:50,593 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:38:50,622 - ERROR - [pid 107944] Worker Worker(salt=2571960355, workers=1, host=MSI, username=alfayyedh, pid=107944) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 145, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 157, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:38:50,640 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:38:50,647 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:38:50,648 - DEBUG - Asking scheduler for work...
+2024-11-11 00:38:50,651 - DEBUG - Done
+2024-11-11 00:38:50,652 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:38:50,652 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:38:50,652 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:38:50,652 - INFO - Worker Worker(salt=2571960355, workers=1, host=MSI, username=alfayyedh, pid=107944) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:38:50,656 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 00:41:14,478 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:41:15,277 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:41:15,317 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:41:15,337 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:41:15,365 - ERROR - [pid 109025] Worker Worker(salt=7161782182, workers=1, host=MSI, username=alfayyedh, pid=109025) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 145, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 157, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:41:15,380 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:41:15,385 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:41:15,385 - DEBUG - Asking scheduler for work...
+2024-11-11 00:41:15,387 - DEBUG - Done
+2024-11-11 00:41:15,387 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:41:15,387 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:41:15,387 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 00:41:15,387 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:41:15,387 - INFO - Worker Worker(salt=7161782182, workers=1, host=MSI, username=alfayyedh, pid=109025) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:41:15,388 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 00:49:42,714 - INFO - Read Load Query - SUCCESS
+2024-11-11 00:49:43,480 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 00:49:43,518 - INFO - Connect to DWH - SUCCESS
+2024-11-11 00:49:43,541 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 00:49:43,571 - ERROR - [pid 112627] Worker Worker(salt=7552725476, workers=1, host=MSI, username=alfayyedh, pid=112627) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "public.customers" does not exist
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 145, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2200, in _execute_internal
+    result = conn.execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "public.customers" does not exist
+
+[SQL: TRUNCATE TABLE public.customers CASCADE]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 157, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 00:49:43,597 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 00:49:43,605 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 00:49:43,606 - DEBUG - Asking scheduler for work...
+2024-11-11 00:49:43,610 - DEBUG - Done
+2024-11-11 00:49:43,610 - DEBUG - There are no more tasks to run at this time
+2024-11-11 00:49:43,610 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 00:49:43,610 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 00:49:43,610 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 00:49:43,611 - INFO - Worker Worker(salt=7552725476, workers=1, host=MSI, username=alfayyedh, pid=112627) was stopped. Shutting down Keep-Alive thread
+2024-11-11 00:49:43,612 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
+2024-11-11 07:32:23,244 - INFO - Read Load Query - SUCCESS
+2024-11-11 07:32:24,031 - INFO - Read Extracted Data - SUCCESS
+2024-11-11 07:32:24,090 - INFO - Connect to DWH - SUCCESS
+2024-11-11 07:32:24,090 - ERROR - Truncate public Schema in DWH - FAILED
+2024-11-11 07:32:24,116 - ERROR - [pid 5788] Worker Worker(salt=2779076529, workers=1, host=MSI, username=alfayyedh, pid=5788) failed    Load()
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3303, in raw_connection
+    return self.pool.connect()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 674, in __init__
+    self.__connect()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5439 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 145, in run
+    session.execute(query)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2306, in execute
+    return self._execute_internal(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2181, in _execute_internal
+    conn = self._connection_for_bind(bind)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2050, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+  File "<string>", line 2, in _connection_for_bind
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1144, in _connection_for_bind
+    conn = bind.connect()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3279, in connect
+    return self._connection_cls(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2443, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3303, in raw_connection
+    return self.pool.connect()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/impl.py", line 177, in _do_get
+    return self._create_connection()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 674, in __init__
+    self.__connect()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5439 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 210, in run
+    new_deps = self._run_get_new_deps()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/venv/lib/python3.10/site-packages/luigi/worker.py", line 138, in _run_get_new_deps
+    task_gen = self.task.run()
+  File "/home/alfayyedh/pacmann/data-warehouse/dataset-olist/pipeline/load.py", line 157, in run
+    raise Exception("Failed to Truncate public Schema in DWH")
+Exception: Failed to Truncate public Schema in DWH
+2024-11-11 07:32:24,149 - DEBUG - 1 running tasks, waiting for next task to finish
+2024-11-11 07:32:24,155 - INFO - Informed scheduler that task   Load__99914b932b   has status   FAILED
+2024-11-11 07:32:24,155 - DEBUG - Asking scheduler for work...
+2024-11-11 07:32:24,156 - DEBUG - Done
+2024-11-11 07:32:24,156 - DEBUG - There are no more tasks to run at this time
+2024-11-11 07:32:24,157 - DEBUG - There are 2 pending tasks possibly being run by other workers
+2024-11-11 07:32:24,157 - DEBUG - There are 2 pending tasks unique to this worker
+2024-11-11 07:32:24,157 - DEBUG - There are 2 pending tasks last scheduled by this worker
+2024-11-11 07:32:24,157 - INFO - Worker Worker(salt=2779076529, workers=1, host=MSI, username=alfayyedh, pid=5788) was stopped. Shutting down Keep-Alive thread
+2024-11-11 07:32:24,158 - INFO - 
+===== Luigi Execution Summary =====
+
+Scheduled 3 tasks of which:
+* 1 complete ones were encountered:
+    - 1 Extract()
+* 1 failed:
+    - 1 Load()
+* 1 were left pending, among these:
+    * 1 had failed dependencies:
+        - 1 Transform()
+
+This progress looks :( because there were failed tasks
+
+===== Luigi Execution Summary =====
+
