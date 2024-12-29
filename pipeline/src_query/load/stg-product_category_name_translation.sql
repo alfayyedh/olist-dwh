@@ -5,7 +5,7 @@ SELECT
     product_category_name, 
     product_category_name_english 
 FROM
-    src.product_category_name_translation
+    public.product_category_name_translation
 
 ON CONFLICT(product_category_name) 
 DO UPDATE SET

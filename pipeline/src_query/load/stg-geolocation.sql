@@ -8,7 +8,7 @@ SELECT
     geolocation_city,
     geolocation_state
 FROM
-    src.geolocation
+    public.geolocation
 
 ON CONFLICT(geolocation_zip_code_prefix) 
 DO UPDATE SET

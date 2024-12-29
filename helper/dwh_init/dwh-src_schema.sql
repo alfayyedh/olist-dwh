@@ -9,6 +9,7 @@ CREATE TABLE product_category_name_translation (
     product_category_name_english text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT product_category_name_translation_pkey PRIMARY KEY (product_category_name)
 );
 
 -- Permissions
@@ -31,7 +32,7 @@ CREATE TABLE products (
     product_weight_g real,
     product_length_cm real,
     product_height_cm real,
-    product_width_cm real
+    product_width_cm real,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT products_pkey PRIMARY KEY (product_id),
@@ -59,7 +60,7 @@ CREATE TABLE geolocation (
     geolocation_lat real,
     geolocation_lng real,
     geolocation_city text,
-    geolocation_state text
+    geolocation_state text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT geolocation_pkey PRIMARY KEY (geolocation_zip_code_prefix)
@@ -80,38 +81,17 @@ CREATE TABLE sellers (
 	seller_id text NOT NULL,
     seller_zip_code_prefix integer,
     seller_city text,
-    seller_state text
+    seller_state text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT sellers_pkey PRIMARY KEY (seller_id),
-	CONSTRAINT geolocation_fkey FOREIGN KEY (seller_zip_code_prefix) REFERENCES geolocationation(geolocation_zip_code_prefix)
+	CONSTRAINT geolocation_fkey FOREIGN KEY (seller_zip_code_prefix) REFERENCES geolocation (geolocation_zip_code_prefix)
 );
 
 -- Permissions
 
 ALTER TABLE sellers OWNER TO postgres;
 GRANT ALL ON TABLE sellers TO postgres;
-
--- Drop table
-
--- DROP TABLE sorder_reviews;
-
-CREATE TABLE order_reviews (
-	review_id text NOT NULL,
-    order_id text NOT NULL,
-    review_score integer,
-    review_comment_title text,
-    review_comment_message text,
-    review_creation_date text,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT order_reviews_pkey PRIMARY KEY (order_id)
-);
-
--- Permissions
-
-ALTER TABLE order_reviews OWNER TO postgres;
-GRANT ALL ON TABLE order_reviews TO postgres;
 
 -- Drop table
 
@@ -122,7 +102,7 @@ CREATE TABLE customers (
     customer_unique_id text,
     customer_zip_code_prefix integer,
     customer_city text,
-    customer_state text
+    customer_state text,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT customer_pkey PRIMARY KEY (customer_id),
@@ -140,18 +120,71 @@ GRANT ALL ON TABLE customers TO postgres;
 
 -- DROP TABLE order_payments;
 
+-- orders definition
+
+-- Drop table
+
+-- DROP TABLE orders;
+
+CREATE TABLE orders (
+    order_id text NOT NULL,
+    customer_id text,
+    order_status text,
+    order_purchase_timestamp text,
+    order_approved_at text,
+    order_delivered_carrier_date text,
+    order_delivered_customer_date text,
+    order_estimated_delivery_date text,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT orders_pkey PRIMARY KEY (order_id),
+    CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    --CONSTRAINT order_items_fkey FOREIGN KEY (order_id) REFERENCES order_items(order_id),
+    --CONSTRAINT order_payments_fkey FOREIGN KEY (order_id) REFERENCES order_payments(order_id),
+    --CONSTRAINT order_reviews_fkey FOREIGN KEY (order_id) REFERENCES order_reviews(order_id)
+);
+-- Permissions
+
+ALTER TABLE orders OWNER TO postgres;
+GRANT ALL ON TABLE orders TO postgres;
+
+-- Drop table
+
+-- DROP TABLE sorder_reviews;
+
+CREATE TABLE order_reviews (
+	review_id text NOT NULL,
+    order_id text NOT NULL,
+    review_score integer,
+    review_comment_title text,
+    review_comment_message text,
+    review_creation_date text,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT order_reviews_pkey PRIMARY KEY (review_id, order_id),
+    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+-- Permissions
+
+ALTER TABLE order_reviews OWNER TO postgres;
+GRANT ALL ON TABLE order_reviews TO postgres;
+
+
+
 CREATE TABLE order_payments (
 	order_id text NOT NULL,
     payment_sequential integer NOT NULL,
     payment_type text,
     payment_installments integer,
-    payment_value real
+    payment_value real,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	-- CONSTRAINT order_payments_check CHECK ((scheduled_arrival > scheduled_departure)),
 	-- CONSTRAINT order_payments_check1 CHECK (((actual_arrival IS NULL) OR ((actual_departure IS NOT NULL) AND (actual_arrival IS NOT NULL) AND (actual_arrival > actual_departure)))),
 	-- CONSTRAINT order_payments_flight_no_scheduled_departure_key UNIQUE (flight_no, scheduled_departure),
-	CONSTRAINT order_payments_pkey PRIMARY KEY (order_id)
+	CONSTRAINT order_payments_pkey PRIMARY KEY (order_id, payment_sequential),
+    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 -- Permissions
@@ -173,10 +206,11 @@ CREATE TABLE order_items (
     seller_id text,
     shipping_limit_date text,
     price real,
-    freight_value real
+    freight_value real,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT order_items_pkey PRIMARY KEY (order_id),
+	CONSTRAINT order_items_pkey PRIMARY KEY (order_id, order_item_id),
+    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES orders(order_id),
     CONSTRAINT products_fkey FOREIGN KEY (product_id) REFERENCES products(product_id),
     CONSTRAINT sellers_fkey FOREIGN KEY (seller_id) REFERENCES sellers(seller_id)
 );
@@ -185,32 +219,3 @@ CREATE TABLE order_items (
 
 ALTER TABLE order_items OWNER TO postgres;
 GRANT ALL ON TABLE order_items TO postgres;
-
-
--- orders definition
-
--- Drop table
-
--- DROP TABLE orders;
-
-CREATE TABLE orders (
-    order_id text NOT NULL,
-    customer_id text,
-    order_status text,
-    order_purchase_timestamp text,
-    order_approved_at text,
-    order_delivered_carrier_date text,
-    order_delivered_customer_date text,
-    order_estimated_delivery_date text
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT orders_pkey PRIMARY KEY (order_id),
-    CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
-    CONSTRAINT order_items_fkey FOREIGN KEY (order_id) REFERENCES order_items(order_id),
-    CONSTRAINT order_payments_fkey FOREIGN KEY (order_id) REFERENCES order_payments(order_id),
-    CONSTRAINT order_reviews_fkey FOREIGN KEY (order_id) REFERENCES order_reviews(order_id)
-
--- Permissions
-
-ALTER TABLE orders OWNER TO postgres;
-GRANT ALL ON TABLE orders TO postgres;

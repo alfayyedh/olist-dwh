@@ -10,11 +10,10 @@ SELECT
     price,
     freight_value
 FROM
-    src.order_items
+    public.order_items
 
-ON CONFLICT(order_id) 
+ON CONFLICT(order_id, order_item_id) 
 DO UPDATE SET
-    order_item_id = EXCLUDED.order_item_id,
     product_id = EXCLUDED.product_id,
     seller_id = EXCLUDED.seller_id,
     shipping_limit_date = EXCLUDED.shipping_limit_date,

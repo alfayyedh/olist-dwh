@@ -1,7 +1,7 @@
 INSERT INTO stg.order_reviews
     (review_id, order_id, review_score, review_comment_title, review_comment_message, review_creation_date)
 
-SELECT 
+SELECT
     review_id,
     order_id,
     review_score,
@@ -9,11 +9,10 @@ SELECT
     review_comment_message,
     review_creation_date
 FROM
-    src.order_reviews
+    public.order_reviews
 
-ON CONFLICT(review_id) 
+ON CONFLICT(review_id, order_id) 
 DO UPDATE SET
-    order_id = EXCLUDED.order_id,
     review_score = EXCLUDED.review_score,
     review_comment_title = EXCLUDED.review_comment_title,
     review_comment_message = EXCLUDED.review_comment_message,

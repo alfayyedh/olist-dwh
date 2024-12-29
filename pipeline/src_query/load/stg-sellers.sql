@@ -7,7 +7,7 @@ SELECT
     seller_city,
     seller_state
 FROM
-    src.sellers
+    public.sellers
 
 ON CONFLICT(seller_id) 
 DO UPDATE SET

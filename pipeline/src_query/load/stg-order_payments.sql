@@ -8,11 +8,10 @@ SELECT
     payment_installments,
     payment_value
 FROM
-    src.order_payments
+    public.order_payments
 
-ON CONFLICT(order_id)
+ON CONFLICT(order_id, payment_sequential)
 DO UPDATE SET
-    payment_sequential = EXCLUDED.payment_sequential,
     payment_type = EXCLUDED.payment_type,
     payment_installments = EXCLUDED.payment_installments,
     payment_value = EXCLUDED.payment_value,

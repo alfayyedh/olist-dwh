@@ -41,30 +41,6 @@ class Load(luigi.Task):
             )
 
             # Read load query to staging schema
-            customers_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-customers.sql'
-            )
-            
-            geolocation_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-geolocation.sql'
-            )
-            
-            order_items_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-order_items.sql'
-            )
-            
-            order_payments_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-order_payments.sql'
-            )
-            
-            order_reviews_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-order_reviews.sql'
-            )
-            
-            orders_query = read_sql_file(
-                file_path = f'{DIR_LOAD_QUERY}/stg-orders.sql'
-            )
-            
             product_category_name_translation_query = read_sql_file(
                 file_path = f'{DIR_LOAD_QUERY}/stg-product_category_name_translation.sql'
             )
@@ -72,9 +48,33 @@ class Load(luigi.Task):
             products_query = read_sql_file(
                 file_path = f'{DIR_LOAD_QUERY}/stg-products.sql'
             )
-
+            
+            geolocation_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-geolocation.sql'
+            )
+            
             sellers_query = read_sql_file(
                 file_path = f'{DIR_LOAD_QUERY}/stg-sellers.sql'
+            )
+            
+            customers_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-customers.sql'
+            )
+            
+            orders_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-orders.sql'
+            )
+            
+            order_reviews_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-order_reviews.sql'
+            )
+            
+            order_payments_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-order_payments.sql'
+            )
+
+            order_items_query = read_sql_file(
+                file_path = f'{DIR_LOAD_QUERY}/stg-order_items.sql'
             )
             
             
@@ -89,15 +89,15 @@ class Load(luigi.Task):
         # Read Data to be load
         try:
             # Read csv
-            customers = pd.read_csv(self.input()[0].path)
-            geolocation = pd.read_csv(self.input()[1].path)
-            order_items = pd.read_csv(self.input()[2].path)
-            order_payments = pd.read_csv(self.input()[3].path)
-            order_reviews = pd.read_csv(self.input()[4].path)
+            product_category_name_translation = pd.read_csv(self.input()[0].path)
+            products = pd.read_csv(self.input()[1].path)
+            geolocation = pd.read_csv(self.input()[2].path)
+            sellers = pd.read_csv(self.input()[3].path)
+            customers = pd.read_csv(self.input()[4].path)
             orders = pd.read_csv(self.input()[5].path)
-            product_category_name_translation = pd.read_csv(self.input()[6].path)
-            products = pd.read_csv(self.input()[7].path)
-            sellers = pd.read_csv(self.input()[7].path)
+            order_reviews = pd.read_csv(self.input()[6].path)
+            order_payments = pd.read_csv(self.input()[7].path)
+            order_items = pd.read_csv(self.input()[8].path)
             
             # Modify some columns.
             # Modify some columns because if they are not replaced it will result in an error
@@ -166,61 +166,7 @@ class Load(luigi.Task):
         try:
             
             try:
-                # Load customers tables    
-                customers.to_sql('customers', 
-                                    con = dwh_engine, 
-                                    if_exists = 'append', 
-                                    index = False, 
-                                    schema = 'public')
-                logging.info(f"LOAD 'public.customers' - SUCCESS")
-                
-                
-                # Load geolocation tables
-                geolocation.to_sql('geolocation', 
-                                    con = dwh_engine, 
-                                    if_exists = 'append', 
-                                    index = False, 
-                                    schema = 'public')
-                logging.info(f"LOAD 'public.geolocation' - SUCCESS")
-                
-                
-                # Load order_items tables
-                order_items.to_sql('order_items', 
-                                con = dwh_engine, 
-                                if_exists = 'append', 
-                                index = False, 
-                                schema = 'public')
-                logging.info(f"LOAD 'public.order_items' - SUCCESS")
-                
-                
-                # Load order_payments tables
-                order_payments.to_sql('order_payments', 
-                            con = dwh_engine, 
-                            if_exists = 'append', 
-                            index = False, 
-                            schema = 'public')
-                logging.info(f"LOAD 'public.order_payment' - SUCCESS")
-                
-                
-                # Load order_reviews tables
-                order_reviews.to_sql('order_reviews', 
-                            con = dwh_engine, 
-                            if_exists = 'append', 
-                            index = False, 
-                            schema = 'public')
-                logging.info(f"LOAD 'public.order_reviews' - SUCCESS")
-                
-                
-                # Load orders tables
-                orders.to_sql('orders', 
-                            con = dwh_engine, 
-                            if_exists = 'append', 
-                            index = False, 
-                            schema = 'public')
-                logging.info(f"LOAD 'public.orders' - SUCCESS")
-                
-                
-                # Load product_category_name_translation tables
+                # Load product_category_name_translation tables    
                 product_category_name_translation.to_sql('product_category_name_translation', 
                                     con = dwh_engine, 
                                     if_exists = 'append', 
@@ -236,15 +182,69 @@ class Load(luigi.Task):
                                     index = False, 
                                     schema = 'public')
                 logging.info(f"LOAD 'public.products' - SUCCESS")
-
-
+                
+                
+                # Load geolocation tables
+                geolocation.to_sql('geolocation', 
+                                con = dwh_engine, 
+                                if_exists = 'append', 
+                                index = False, 
+                                schema = 'public')
+                logging.info(f"LOAD 'public.geolocation' - SUCCESS")
+                
+                
                 # Load sellers tables
                 sellers.to_sql('sellers', 
+                            con = dwh_engine, 
+                            if_exists = 'append', 
+                            index = False, 
+                            schema = 'public')
+                logging.info(f"LOAD 'public.sellers' - SUCCESS")
+                
+                
+                # Load order_reviews tables
+                customers.to_sql('customers', 
+                            con = dwh_engine, 
+                            if_exists = 'append', 
+                            index = False, 
+                            schema = 'public')
+                logging.info(f"LOAD 'public.customers' - SUCCESS")
+                
+                
+                # Load customers tables
+                orders.to_sql('orders', 
+                            con = dwh_engine, 
+                            if_exists = 'append', 
+                            index = False, 
+                            schema = 'public')
+                logging.info(f"LOAD 'public.orders' - SUCCESS")
+                
+                
+                # Load order_payments tables
+                order_reviews.to_sql('order_reviews', 
                                     con = dwh_engine, 
                                     if_exists = 'append', 
                                     index = False, 
                                     schema = 'public')
-                logging.info(f"LOAD 'public.sellers' - SUCCESS")
+                logging.info(f"LOAD 'public.order_reviews' - SUCCESS")
+                
+                
+                # Load order_items tables
+                order_payments.to_sql('order_payments', 
+                                    con = dwh_engine, 
+                                    if_exists = 'append', 
+                                    index = False, 
+                                    schema = 'public')
+                logging.info(f"LOAD 'public.order_payments' - SUCCESS")
+
+
+                # Load orders tables
+                order_items.to_sql('order_items', 
+                                    con = dwh_engine, 
+                                    if_exists = 'append', 
+                                    index = False, 
+                                    schema = 'public')
+                logging.info(f"LOAD 'public.order_items' - SUCCESS")
 
                 logging.info(f"LOAD All Tables To DWH-Olist - SUCCESS")
                 
@@ -257,9 +257,9 @@ class Load(luigi.Task):
             # Load to staging schema
             try:
                 # List query
-                load_stg_queries = [customers_query, geolocation_query, order_items_query,
-                                    order_payments_query, order_reviews_query, orders_query,
-                                    product_category_name_translation_query, products_query, sellers_query,]
+                load_stg_queries = [product_category_name_translation_query, products_query, geolocation_query,
+                                    sellers_query, customers_query, orders_query,
+                                    order_reviews_query, order_payments_query, order_items_query]
                 
                 # Create session
                 Session = sessionmaker(bind = dwh_engine)

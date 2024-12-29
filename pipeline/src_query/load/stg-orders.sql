@@ -1,5 +1,5 @@
 INSERT INTO stg.orders 
-    (order_id, customer_id, order_status, order_purchase_timestamp, order_approved_at, order_approved_at, order_delivered_carrier_date, order_delivered_customer_date, order_estimated_delivery_date) 
+    (order_id, customer_id, order_status, order_purchase_timestamp, order_approved_at, order_delivered_carrier_date, order_delivered_customer_date, order_estimated_delivery_date) 
 
 SELECT
     order_id, 
@@ -11,7 +11,7 @@ SELECT
     order_delivered_customer_date, 
     order_estimated_delivery_date
 FROM
-    src.orders
+    public.orders
 
 ON CONFLICT(order_id) 
 DO UPDATE SET
@@ -28,7 +28,7 @@ DO UPDATE SET
                         OR stg.orders.order_purchase_timestamp <> EXCLUDED.order_purchase_timestamp 
                         OR stg.orders.order_approved_at <> EXCLUDED.order_approved_at
                         OR stg.orders.order_delivered_carrier_date <> EXCLUDED.order_delivered_carrier_date 
-                        OR stg.orders.order_delivered_customer_date <> EXCLUDED.order_delivered_customer_date, 
+                        OR stg.orders.order_delivered_customer_date <> EXCLUDED.order_delivered_customer_date 
                         OR stg.orders.order_estimated_delivery_date <> EXCLUDED.order_estimated_delivery_date
                 THEN 
                         CURRENT_TIMESTAMP

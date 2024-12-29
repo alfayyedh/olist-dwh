@@ -38,20 +38,20 @@ class Transform(luigi.Task):
             # )
 
             # Read transform query to final schema
-            dim_customer_query = read_sql_file(
-                file_path = f'{DIR_TRANSFORM_QUERY}/dim_customer.sql'
-            )
-            
             dim_geolocation_query = read_sql_file(
                 file_path = f'{DIR_TRANSFORM_QUERY}/dim_geolocation.sql'
+            )
+            
+            dim_customer_query = read_sql_file(
+                file_path = f'{DIR_TRANSFORM_QUERY}/dim_customer.sql'
             )
             
             dim_product_query = read_sql_file(
                 file_path = f'{DIR_TRANSFORM_QUERY}/dim_product.sql'
             )
             
-            fct_delivery_query = read_sql_file(
-                file_path = f'{DIR_TRANSFORM_QUERY}/fct_delivery.sql'
+            fct_order_query = read_sql_file(
+                file_path = f'{DIR_TRANSFORM_QUERY}/fct_order_delivery.sql'
             )
             
             fct_review_query = read_sql_file(
@@ -88,15 +88,15 @@ class Transform(luigi.Task):
             Session = sessionmaker(bind = dwh_engine)
             session = Session()
             
-            # Transform to final.dim_customer
-            query = sqlalchemy.text(dim_customer_query)
-            session.execute(query)
-            logging.info("Transform to 'final.dim_customer' - SUCCESS")
-            
             # Transform to final.dim_geolocation
             query = sqlalchemy.text(dim_geolocation_query)
             session.execute(query)
             logging.info("Transform to 'final.dim_geolocation' - SUCCESS")
+            
+            # Transform to final.dim_customer
+            query = sqlalchemy.text(dim_customer_query)
+            session.execute(query)
+            logging.info("Transform to 'final.dim_customer' - SUCCESS")
             
             # Transform to final.dim_product
             query = sqlalchemy.text(dim_product_query)
@@ -106,10 +106,10 @@ class Transform(luigi.Task):
             # Commit transaction
             session.commit()
             
-            # Transform to final.fct_delivery
-            query = sqlalchemy.text(fct_delivery_query)
+            # Transform to final.fct_order_delivery
+            query = sqlalchemy.text(fct_order_query)
             session.execute(query)
-            logging.info("Transform to 'final.fct_delivery' - SUCCESS")
+            logging.info("Transform to 'final.fct_order_delivery' - SUCCESS")
             
             # Transform to final.fct_review
             query = sqlalchemy.text(fct_review_query)
